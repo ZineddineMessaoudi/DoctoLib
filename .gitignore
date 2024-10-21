@@ -1,0 +1,22 @@
+# Dossier des dépendances
+node_modules/
+
+# Fichiers de log
+*.log
+
+# Dossiers de build
+dist/
+build/
+
+# Fichiers de configuration
+.env
+.env.*
+
+# Fichiers de système
+.DS_Store
+Thumbs.db
+
+# Autres
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
