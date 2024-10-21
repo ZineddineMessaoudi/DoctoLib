@@ -1,0 +1,362 @@
+openapi: 3.0.0
+info:
+  title: Doctolib 2.0
+  description: API REST qui va remplacer Doctolib
+  version: 1.0.0
+servers:
+  - url: https://doctoplus.com/api
+    description: Serveur de production
+paths:
+  /patients:
+    get:
+      tags:
+        - Patient
+      summary: Récupérer la liste de tous les patients
+      responses:
+        '200':
+          description: Liste des patients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Patient'
+    post:
+      tags:
+        - Patient
+      summary: Créer un nouveau Patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '201':
+          description: Patient créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+  /patients/{patientId}:
+    get:
+      tags:
+        - Patient
+      summary: Récupérer un Patient par son ID
+      parameters:
+        - in: path
+          name: patientId
+          required: true
+          description: ID du Patient
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Patient trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+        '404':
+          description: Patient non trouvé
+    put:
+      tags:
+        - Patient
+      summary: Mettre à jour un Patient
+      parameters:
+        - in: path
+          name: patientId
+          required: true
+          description: ID du Patient
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patient'
+      responses:
+        '200':
+          description: Patient mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patient'
+    delete:
+      tags:
+        - Patient
+      summary: Supprimer un Patient
+      parameters:
+        - in: path
+          name: patientId
+          required: true
+          description: ID du Patient
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Patient supprimé
+
+  /factures:
+    get:
+      tags:
+        - facture
+      summary: Récupérer la liste des factures
+      parameters:
+        - in: query
+          name: patientId
+          description: ID du Patient
+          schema:
+            type: integer
+        - in: query
+          name: praticienId
+          description: ID du Praticien
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des factures
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Facture'
+    post:
+      tags:
+        - facture
+      summary: Créer une nouvelle facture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Facture'
+      responses:
+        '201':
+          description: Facture créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facture'
+
+  /factures/{factureId}:
+    get:
+      tags:
+        - facture
+      summary: Récupérer une facture par son ID
+      parameters:
+        - in: path
+          name: factureId
+          required: true
+          description: ID de la facture
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Facture trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facture'
+        '404':
+          description: Facture non trouvée
+    put:
+      tags:
+        - facture
+      summary: Mettre à jour une facture
+      parameters:
+        - in: path
+          name: factureId
+          required: true
+          description: ID de la facture
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Facture'
+      responses:
+        '200':
+          description: Facture mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Facture'
+    delete:
+      tags:
+        - facture
+      summary: Supprimer une facture
+      parameters:
+        - in: path
+          name: factureId
+          required: true
+          description: ID de la facture
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Facture supprimée
+
+  /rdvs:
+    get:
+      tags:
+        - rdv
+      summary: Récupérer la liste des rdvs
+      parameters:
+        - in: query
+          name: patientId
+          description: ID du Patient
+          schema:
+            type: integer
+        - in: query
+          name: praticienId
+          description: ID du Praticien
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Liste des rdvs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rdv'
+    post:
+      tags:
+        - rdv
+      summary: Créer une nouvelle rdv pour un Patient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rdv'
+      responses:
+        '201':
+          description: rdv créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rdv'
+
+  /rdvs/{rdvId}:
+    get:
+      tags:
+        - rdv
+      summary: Récupérer une rdv par son ID
+      parameters:
+        - in: path
+          name: rdvId
+          required: true
+          description: ID de la rdv
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: rdv trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rdv'
+        '404':
+          description: rdv non trouvée
+    put:
+      tags:
+        - rdv
+      summary: Mettre à jour une rdv
+      parameters:
+        - in: path
+          name: rdvId
+          required: true
+          description: ID de la rdv
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rdv'
+      responses:
+        '200':
+          description: rdv mise à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rdv'
+    delete:
+      tags:
+        - rdv
+      summary: Supprimer une rdv
+      parameters:
+        - in: path
+          name: rdvId
+          required: true
+          description: ID de la rdv
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: rdv supprimée
+components:
+  schemas:
+    Patient:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nom:
+          type: string
+          example: Doe
+        prenom:
+          type: string
+          example: John
+        dateNaissance:
+          type: string
+          format: date
+        factures:
+          type: array
+          items:
+            $ref: '#/components/schemas/Facture'
+    Facture:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        patientId:
+          type: integer
+          example: 2
+        praticienId:
+          type: integer
+          example: 3
+        dateRdv:
+          type: string
+          format: date
+        montantTotal:
+          type: number
+          example: 432
+        devise:
+          type: string
+          example: euro
+    Rdv:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        patientId:
+          type: integer
+          example: 2
+        praticienId:
+          type: integer
+          example: 3
+        dateRdv:
+          type: string
+          format: date
