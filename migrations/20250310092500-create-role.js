@@ -26,7 +26,6 @@ module.exports = {
       },
     })
 
-    // 2. Insérer les rôles par défaut
     const roles = await queryInterface.bulkInsert(
       "Roles",
       [
@@ -44,7 +43,6 @@ module.exports = {
       { returning: true }
     )
 
-    // 3. Ajouter la colonne roleId comme nullable initialement
     await queryInterface.addColumn("Users", "roleId", {
       type: Sequelize.INTEGER,
       allowNull: true,
