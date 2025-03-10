@@ -17,9 +17,24 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Roles",
+        key: "id",
+      },
+    },
   })
 
   User.associate = (models) => {
+    User.belongsTo(models.Role, {
+      foreignKey: {
+        name: "roleId",
+        allowNull: false,
+      },
+    })
+
     User.hasOne(models.Patient, {
       foreignKey: {
         name: "userId",

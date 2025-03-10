@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const { Sequelize } = require("sequelize")
 const db = require("./models")
 const { authenticateUser } = require("./middleware/auth.middleware")
+const { checkRole } = require("./middleware/checkRole.middleware")
 
 const app = express()
 const port = 3000
@@ -10,7 +11,7 @@ const port = 3000
 app.use(bodyParser.json())
 
 db.sequelize.sync().then(() => {
-  console.log("Connexion à la base de données réussie")
+  console.log("Connexion à la base de données réussie")
 })
 
 /**
@@ -25,14 +26,19 @@ app.use("/auth", authRoutes)
  * @const {Object} patientRoutes - Router Express pour les endpoints patients
  */
 const patientRoutes = require("./routes/patient")
-app.use("/patient", authenticateUser, patientRoutes)
+app.use("/patient", authenticateUser, checkRole(["patient"]), patientRoutes)
 
 /**
  * Configuration des routes pour les praticiens
  * @const {Object} praticienRoutes - Router Express pour les endpoints praticiens
  */
 const praticienRoutes = require("./routes/praticien")
-app.use("/praticien", authenticateUser, praticienRoutes)
+app.use(
+  "/praticien",
+  authenticateUser,
+  checkRole(["praticien"]),
+  praticienRoutes
+)
 
 /**
  * Configuration des routes pour les factures
