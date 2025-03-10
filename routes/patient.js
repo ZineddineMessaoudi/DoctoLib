@@ -21,7 +21,11 @@ router.get("/:id", async (req, res) => {
   try {
     const id = req.params.id
     const patient = await Patient.findByPk(id)
-    res.status(200).json(patient)
+    if (!patient) {
+      res.status(404).json({ message: "Patient not found" })
+    } else {
+      res.status(200).json(patient)
+    }
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

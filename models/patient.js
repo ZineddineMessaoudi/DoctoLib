@@ -21,12 +21,28 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+    },
   })
 
   Patient.associate = (models) => {
     Patient.hasMany(models.Facture, { foreignKey: "patientId" })
 
     Patient.hasMany(models.Rdv, { foreignKey: "patientId" })
+
+    Patient.belongsTo(models.User, {
+      foreignKey: {
+        name: "userId",
+        allowNull: true,
+      },
+    })
   }
 
   return Patient

@@ -37,6 +37,7 @@ router.post("/", async (req, res) => {
 //*** Get rdv dispo */
 router.get("/:praticienId/:libre", async (req, res) => {
   try {
+    console.log(req.params)
     if (req.params.libre === "true") {
       const rdvs = await Rdv.findAll({
         where: {
