@@ -7,13 +7,17 @@ const router = express.Router()
 
 const register = async (req, res) => {
   try {
-    const { email, password } = req.body
+    const { email, password, roleId } = req.body
     if (await User.findOne({ where: { email } })) {
       return res.status(400).json({ message: "User already exists" })
     }
 
     const hashedPassword = await bcrypt.hash(password, config.SALT_ROUNDS)
-    const newUser = await User.create({ email, password: hashedPassword })
+    const newUser = await User.create({
+      email,
+      password: hashedPassword,
+      roleId,
+    })
 
     const { password: _, ...userWithoutPassword } = newUser
     res
